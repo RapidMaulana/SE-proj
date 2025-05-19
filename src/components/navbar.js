@@ -7,9 +7,9 @@ import Link from "next/link";
 import { ShoppingCart, User } from "lucide-react";
 
 const navbarItems = [
-    { text: "Clothing", href: "/clothing" },
-    { text: "Footwear", href: "/footwear" },
-    { text: "Latest Product", href: "/latest" },
+    { text: "Men", href: "/products" },
+    { text: "Women", href: "/products" },
+    { text: "Our Products", href: "/products" },
   ];
 
 
@@ -24,9 +24,16 @@ export default function Navbar() {
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
+  function BackToTop(){
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth"
+    })
+  }
+
   return (
-    <nav className={`fixed z-10 w-screen flex flex-row items-center justify-between transition-colors duration-300 ease-in-out p-5 px-20 animate-revealTop ${scrolled ? 'bg-white shadow-md text-black' : 'bg-transparent text-white'}`}>
-          <p className={`${Font.dmSerifDisplay.className} text-4xl`}>NgeBaju</p>
+    <nav className={`fixed top-0 z-10 w-screen flex flex-row items-center justify-between transition-colors duration-300 ease-in-out p-5 px-20 animate-revealTop ${scrolled ? 'bg-white shadow-md text-black' : 'bg-transparent text-white'}`}>
+          <Link href={"/"} className={`${Font.dmSerifDisplay.className} text-4xl`}>NgeBaju</Link>
           <div className="flex flex-row text-xl gap-10 font-semibold">
             {navbarItems.map((item, index) => (
               <Link key={index} href={item.href} className={`${scrolled ? 'hover:bg-black hover:text-white' : 'hover:bg-white hover:text-black'} p-3 px-6 rounded-[70px]`}>
@@ -41,6 +48,9 @@ export default function Navbar() {
             <Link href={"./auth/login"}  className={`${scrolled ? 'hover:bg-black hover:text-white' : 'hover:bg-white hover:text-black'} p-3 rounded-[70px]`}>
               <User size={28}/>
             </Link>
+            {/* <button onClick={BackToTop}>
+              Back to Top
+            </button> */}
           </div>
         </nav>
   );
