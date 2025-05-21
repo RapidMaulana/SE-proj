@@ -1,4 +1,4 @@
-import * as Font from "../components/fonts.js";
+import * as Font from "@/components/fonts.js";
 
 import Link from "next/link.js";
 import Image from "next/image.js";
@@ -60,11 +60,11 @@ export default function Home() {
         </div>
       </div>
 
-      <div className="bg-black p-20">
+      <div id="about" className="bg-black p-20 flex flex-col items-center justify-center h-screen">
         <h1 className={`${Font.dmSerifDisplay.className} text-7xl text-white`}>
           Our Store History
         </h1>
-        <p className="text-xl w-[calc(100%/1.7)] mt-8">
+        <p className="text-xl w-[calc(100%/1.7)] mt-8 text-center">
           <span className={`${Font.dmSerifDisplay.className} mr-2 text-4xl`}>NgeBaju</span>
           started as a Software Engineering project in a BINUS classroom in
           February 2025. From a simple academic assignment, it has grown into a
@@ -75,7 +75,7 @@ export default function Home() {
       </div>
 
       <div className=" h-screen w-full p-20 flex flex-col gap-20 justify-evenly">
-        <h1 className={`${Font.dmSerifDisplay.className} text-7xl text-white`}>
+        <h1 className={`${Font.dmSerifDisplay.className} mx-auto text-7xl text-white`}>
           Enough for the Wait, Start Shopping Now!
         </h1>
         <div className="bg-gradient-to-b from-gray-50 to-orange-200 h-[calc(100%/1.1)] px-10 rounded-[40px] flex flex-row justify-between items-center">
@@ -89,7 +89,7 @@ export default function Home() {
               something special for everyone.
             </p>
             <Link
-              href={"/auth/login"}
+              href={"/login"}
               className="text-2xl w-[40%] text-center font-semibold p-4 px-8 bg-transparent border-black border-4 rounded-[70px] hover:bg-black hover:text-orange-200 transition duration-300 ease-in-out">
               Sign Up for Member
             </Link>

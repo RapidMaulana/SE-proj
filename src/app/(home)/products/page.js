@@ -1,4 +1,4 @@
-import * as Font from "../../components/fonts.js";
+import * as Font from "@/components/fonts.js";
 
 import { ShoppingBag } from "lucide-react";
 
