@@ -38,7 +38,7 @@ export default function OrdersPage() {
         setLoading(true);
         try {
           // Ganti URL sesuai API kamu
-          const res = await fetch("http://localhost:8000/api/orders", {
+          const res = await fetch("http://localhost:8000/api/orders/me", {
             headers: {
               Authorization: `Bearer ${localStorage.getItem("token")}`,
             },
@@ -62,6 +62,14 @@ export default function OrdersPage() {
     }
   }, [auth]);
 
+  if (loading) {
+    return (
+      <div className="h-screen p-20 flex items-center justify-center text-3xl font-semibold">
+        Loading orders...
+      </div>
+    );
+  }
+
   if (auth === "unregistered") {
     return (
       <div className="h-screen p-20 flex flex-col items-center justify-center">
@@ -70,14 +78,6 @@ export default function OrdersPage() {
             Register Your Account.
           </Link>
         </div>
-      </div>
-    );
-  }
-
-  if (loading) {
-    return (
-      <div className="h-screen p-20 flex items-center justify-center text-3xl font-semibold">
-        Loading orders...
       </div>
     );
   }

@@ -53,10 +53,9 @@ export default function Home() {
             <p
               className="w-[40%] text-lg animate-revealBot"
               style={{ animationDelay: "300ms" }}>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-              eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-              enim ad minim veniam, quis nostrud exercitation ullamco laboris
-              nisi ut aliquip ex ea commodo consequat.
+              Simple looks, real comfort. At NgeBaju, we design everyday wear
+              that feels good and fits your style clean, casual, and made
+              to move with you.
             </p>
             <Link
               href={"/products"}
@@ -90,11 +89,12 @@ export default function Home() {
           <div className="grid grid-cols-3 grid-rows-2 gap-8 h-full w-[calc(100%/1.4)]">
             {products.slice(0, 4).map((items, index) => {
               return (
-                <Link href={`/products/details/${items.product_id}`}
+                <Link
+                  href={`/products/details/${items.product_id}`}
                   key={index}
                   className={`col-span-${
                     index % 4 === 0 || index % 4 === 3 ? "2" : "1"
-                  } row-span-1 flex items-center justify-center duration-700 rounded-[30px]`}
+                  } row-span-1 flex items-center justify-center duration-700 bg-white/75 rounded-[30px]`}
                   style={{
                     backgroundImage: `url(${items.images[1]?.image_url}.jpg)`,
                     backgroundSize: "contain",

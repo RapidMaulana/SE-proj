@@ -14,7 +14,7 @@ export default function CheckoutPage() {
       setError(null);
       try {
         const orderId = localStorage.getItem("currentOrderId"); // Ambil ID order dari localStorage
-        const response = await fetch(`http://localhost:8000/api/orders/1`, {
+        const response = await fetch(`http://localhost:8000/api/orders/${orderId}`, {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
           },

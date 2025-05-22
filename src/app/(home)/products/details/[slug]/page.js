@@ -106,7 +106,6 @@ export default function ProductDetailPage({ params }) {
 
       if (!res.ok) throw new Error(data.message || "Failed to add to cart");
 
-      alert("Added to cart successfully!");
     } catch (err) {
       alert(err.message);
     } finally {
@@ -150,7 +149,7 @@ export default function ProductDetailPage({ params }) {
         throw new Error(data.message || "Failed to create order");
 
       // Redirect ke halaman checkout
-      router.push("/checkout");
+      router.push("/orders");
     } catch (err) {
       alert(err.message);
     } finally {
