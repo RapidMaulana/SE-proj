@@ -1,9 +1,39 @@
+"use client";
+
 import * as Font from "@/components/fonts.js";
 
 import Link from "next/link.js";
 import Image from "next/image.js";
+import { useState, useEffect } from "react";
 
 export default function Home() {
+  const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [category, setCategory] = useState(1);
+
+  useEffect(() => {
+    async function fetchProducts() {
+      try {
+        const response = await fetch(`http://localhost:8000/api/products`); // Ganti dengan URL API kamu
+        const data = await response.json();
+
+        console.log(data.products[0].images[0].image_url);
+        if (data.success) {
+          setProducts(data.products);
+        } else {
+          throw new Error("Failed to fetch products");
+        }
+      } catch (err) {
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    fetchProducts();
+  }, [category]);
+
   return (
     <div className="flex flex-col max-w-screen">
       <div
@@ -41,31 +71,56 @@ export default function Home() {
         <h1 className={`${Font.dmSerifDisplay.className} text-8xl mb-10`}>
           Our New Releases
         </h1>
-        <div className="grid grid-cols-3 grid-rows-2 gap-8 h-full w-[calc(100%/1.4)]">
-          <div
-            className="col-span-2 row-span-1 bg-thirtiery flex items-center justify-center animate-pulse duration-700 rounded-[30px]"
-            style={{ animationDelay: "0ms" }}></div>
-
-          <div
-            className="col-span-1 row-span-1 bg-thirtiery flex items-center justify-center animate-pulse duration-700 rounded-[30px]"
-            style={{ animationDelay: "200ms" }}></div>
-
-          <div
-            className="col-span-1 row-span-1 bg-thirtiery flex items-center justify-center animate-pulse duration-700 rounded-[30px]"
-            style={{ animationDelay: "200ms" }}></div>
-
-          <div
-            className="col-span-2 row-span-1 bg-thirtiery flex items-center justify-center animate-pulse duration-700 rounded-[30px]"
-            style={{ animationDelay: "600ms" }}></div>
-        </div>
+        {loading === true ? (
+          <div className="grid grid-cols-3 grid-rows-2 gap-8 h-full w-[calc(100%/1.4)]">
+            <div
+              className="col-span-2 row-span-1 bg-thirtiery flex items-center justify-center animate-pulse duration-700 rounded-[30px]"
+              style={{ animationDelay: "0ms" }}></div>
+            <div
+              className="col-span-1 row-span-1 bg-thirtiery flex items-center justify-center animate-pulse duration-700 rounded-[30px]"
+              style={{ animationDelay: "200ms" }}></div>
+            <div
+              className="col-span-1 row-span-1 bg-thirtiery flex items-center justify-center animate-pulse duration-700 rounded-[30px]"
+              style={{ animationDelay: "200ms" }}></div>
+            <div
+              className="col-span-2 row-span-1 bg-thirtiery flex items-center justify-center animate-pulse duration-700 rounded-[30px]"
+              style={{ animationDelay: "600ms" }}></div>
+          </div>
+        ) : (
+          <div className="grid grid-cols-3 grid-rows-2 gap-8 h-full w-[calc(100%/1.4)]">
+            {products.slice(0, 4).map((items, index) => {
+              return (
+                <Link href={`/products/details/${items.product_id}`}
+                  key={index}
+                  className={`col-span-${
+                    index % 4 === 0 || index % 4 === 3 ? "2" : "1"
+                  } row-span-1 flex items-center justify-center duration-700 rounded-[30px]`}
+                  style={{
+                    backgroundImage: `url(${items.images[1]?.image_url}.jpg)`,
+                    backgroundSize: "contain",
+                    backgroundPosition: "center",
+                    backgroundRepeat: "no-repeat",
+                  }}>
+                  <div className="bg-black bg-opacity-50 w-full h-full flex items-end text-white rounded-[30px] text-start">
+                    <h2 className="text-3xl font-bold m-8">{items.name}</h2>
+                  </div>
+                </Link>
+              );
+            })}
+          </div>
+        )}
       </div>
 
-      <div id="about" className="bg-black p-20 flex flex-col items-center justify-center h-screen">
+      <div
+        id="about"
+        className="bg-black p-20 flex flex-col items-center justify-center h-screen">
         <h1 className={`${Font.dmSerifDisplay.className} text-7xl text-white`}>
           Our Store History
         </h1>
         <p className="text-xl w-[calc(100%/1.7)] mt-8 text-center">
-          <span className={`${Font.dmSerifDisplay.className} mr-2 text-4xl`}>NgeBaju</span>
+          <span className={`${Font.dmSerifDisplay.className} mr-2 text-4xl`}>
+            NgeBaju
+          </span>
           started as a Software Engineering project in a BINUS classroom in
           February 2025. From a simple academic assignment, it has grown into a
           clothing store that offers unique apparel with a touch of luxury. We
@@ -75,7 +130,8 @@ export default function Home() {
       </div>
 
       <div className=" h-screen w-full p-20 flex flex-col gap-20 justify-evenly">
-        <h1 className={`${Font.dmSerifDisplay.className} mx-auto text-7xl text-white`}>
+        <h1
+          className={`${Font.dmSerifDisplay.className} mx-auto text-7xl text-white`}>
           Enough for the Wait, Start Shopping Now!
         </h1>
         <div className="bg-gradient-to-b from-gray-50 to-orange-200 h-[calc(100%/1.1)] px-10 rounded-[40px] flex flex-row justify-between items-center">

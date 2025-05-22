@@ -15,23 +15,32 @@ const navbarItems = [
 export default function Navbar({ tooglePopUp }) {
   const [scrolled, setScrolled] = useState(false);
   const [navItems, setNavItems] = useState(0);
+  const [auth, setAuth] = useState("unregistered");
 
   useEffect(() => {
-    function onScroll() {
-      setScrolled(window.scrollY > 50);
+    const token = localStorage.getItem("token");
+
+    if (token) {
+      try {
+        // Decode token (opsional)
+        const payload = JSON.parse(atob(token.split(".")[1])); // Decode payload JWT
+
+        const isExpired = payload.exp * 1000 < Date.now(); // Cek apakah token kedaluwarsa
+
+        if (!isExpired) {
+          setAuth("authorized"); // Token valid
+        } else {
+          setAuth("unregistered"); // Token kedaluwarsa
+          localStorage.removeItem("token"); // Bersihkan token
+        }
+      } catch (error) {
+        console.error("Invalid token:", error);
+        setAuth("unregistered");
+      }
+    } else {
+      setAuth("unregistered");
     }
-    window.addEventListener('scroll', onScroll);
-    // console.log( "ini navItems(useState) ", navItems, "ini navbarItems items di navbar", navbarItems);
-    return () => window.removeEventListener('scroll', onScroll);
   }, []);
-
-  function BackToTop(){
-    window.scrollTo({
-      top: 0,
-      behavior: "smooth"
-    })
-  }
-
 
   return (
     <nav className={`fixed top-0 z-10 w-screen flex flex-row items-center justify-between transition-colors duration-300 ease-in-out p-5 px-20 animate-revealTop ${scrolled ? 'bg-white shadow-md text-black' : 'bg-transparent text-white'}`}>
@@ -47,7 +56,7 @@ export default function Navbar({ tooglePopUp }) {
             <button onClick={tooglePopUp} className={`${scrolled ? 'hover:bg-black hover:text-white' : 'hover:bg-white hover:text-black'} p-3 rounded-[70px]`}>
               <ShoppingCart size={28}/>
             </button>
-            <Link href={"./login"}  className={`${scrolled ? 'hover:bg-black hover:text-white' : 'hover:bg-white hover:text-black'} p-3 rounded-[70px]`}>
+            <Link href={auth === "unregistered" ? "/login" : "/profile"}  className={`${scrolled ? 'hover:bg-black hover:text-white' : 'hover:bg-white hover:text-black'} p-3 rounded-[70px]`}>
               <User size={28}/>
             </Link>
             {/* <button onClick={BackToTop}>

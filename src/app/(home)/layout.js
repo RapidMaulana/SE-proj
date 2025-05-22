@@ -20,6 +20,9 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <head>
+        <title>
+          NgeBaju
+        </title>
         <link rel="icon" href="/favicon.png"/>
       </head>
       <body

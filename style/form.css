@@ -61,3 +61,30 @@ input{
     background-color: white;
     color: black;
 }
+
+.header-wrapper h1{
+    font-size: 30px;
+    font-weight: 800;
+}
+
+.header-wrapper h2{
+    font-size: 20px;
+    opacity: 0.5;
+    margin-bottom: 40px;
+}
+
+.forgot-password-input{
+    background-color: transparent;
+    border-bottom: solid 2px white;
+    border-radius: 0;
+    padding-left: 0;
+}
+
+.btl{
+    color: grey;
+    transition: 0.2s ease-in-out;
+}
+
+.btl:hover{
+    color: white;
+}
