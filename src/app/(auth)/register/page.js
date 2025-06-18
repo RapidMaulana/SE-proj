@@ -134,7 +134,7 @@ export default function RegisterPage() {
           name="email"
           value={formData.email}
           onChange={handleInputChange}
-          placeholder="rapidganteng@gmail.com"
+          placeholder="email@gmail.com"
         />
 
         <label>Username</label>
@@ -143,7 +143,7 @@ export default function RegisterPage() {
           name="username"
           value={formData.username}
           onChange={handleInputChange}
-          placeholder="RpdGanteng"
+          placeholder="Username"
         />
 
         <label>Password</label>

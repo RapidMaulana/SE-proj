@@ -62,7 +62,7 @@ export default function LoginPage() {
         <label>Email</label>
         <input
           value={email}
-          placeholder="rapidganteng@gmail.com"
+          placeholder="email@gmail.com"
           onChange={(e) => setEmail(e.target.value)}
         />
         <label>Password</label>
@@ -70,7 +70,7 @@ export default function LoginPage() {
           type="password" // Tambahkan tipe password
           value={password}
           onChange={(e) => setPassword(e.target.value)}
-          placeholder="paswot"
+          placeholder="pasword"
         />
         {/* <div className="flex flex-row justify-between">
           <div>
