@@ -156,7 +156,7 @@ export default function OrdersPage() {
           </div>
           <div className="flex flex-row justify-between w-full text-2xl font-semibold mt-4">
             <p>Total: Rp.{order.total_price}</p>
-            <p>{order.payment_status === "paid" ? "Verified" : "Unpaid"}</p>
+            <p></p>
           </div>
         </button>
       ))}
