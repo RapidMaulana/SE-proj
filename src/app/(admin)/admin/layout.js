@@ -6,6 +6,8 @@ import Link from "next/link";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 
+import AdminSidebar from "@/components/admin-sidebar";
+
 // export const metadata = {
 //   title: "NgeBaju - Atmin",
 //   description: "Group 8th - Software Engineering Project",
@@ -14,14 +16,6 @@ import { useRouter } from "next/navigation";
 export default function AuthLayout({ children }) {
   const [auth, setAuth] = useState(null); // null untuk menunjukkan status belum diperiksa
   const router = useRouter();
-
-  const handleLogout = () => {
-    // Hapus token dari localStorage
-    localStorage.removeItem("token");
-
-    // Arahkan ke halaman home
-    router.push("/");
-  };
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -70,22 +64,18 @@ export default function AuthLayout({ children }) {
         <link rel="icon" href="/favicon.png" />
       </head>
       <body
-        className={`${Font.poppins.className} antialiased bg-background text-foreground justify-between flex flex-row`}>
-        <nav className="bg-black w-[25%] h-screen pt-5 pl-5">
-          <div>
-            <h1 className={`${Font.dmSerifDisplay.className} text-6xl`}>
-              NgeBaju
-            </h1>
+        className={`${Font.poppins.className} antialiased bg-background text-foreground`}
+      >
+        <div className="min-h-screen bg-gray-900 flex">
+          <AdminSidebar />
+
+          {/* Main content */}
+          <div className="flex-1 flex flex-col lg:ml-0">
+            <main className="flex-1 p-6">
+              <div className="max-w-7xl mx-auto">{children}</div>
+            </main>
           </div>
-          <div className="flex flex-col gap-10 text-2xl font-semibold mt-10 ml-3 text-start">
-            <Link href={"/admin/dashboard"}>Dashboard</Link>
-            <Link href={"/admin/orders"}>Manage Orders</Link>
-            <Link href={"/admin/inventory"}>Manage Stock</Link>
-            <Link href={"/admin/customers"}>Manage Customer</Link>
-            <button onClick={handleLogout} className="text-start">Logout</button>
-          </div>
-        </nav>
-        {children}
+        </div>
       </body>
     </html>
   );

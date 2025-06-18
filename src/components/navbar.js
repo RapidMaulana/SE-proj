@@ -42,8 +42,16 @@ export default function Navbar({ tooglePopUp }) {
     }
   }, []);
 
+  useEffect(() => {
+    function onScroll() {
+      setScrolled(window.scrollY > 50);
+    }
+    window.addEventListener('scroll', onScroll);
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
+
   return (
-    <nav className={`fixed top-0 z-10 w-screen flex flex-row items-center justify-between transition-colors duration-300 ease-in-out p-5 px-20 animate-revealTop ${scrolled ? 'bg-white shadow-md text-black' : 'bg-transparent text-white'}`}>
+    <nav className={`fixed top-0 z-20 w-screen flex flex-row items-center justify-between transition-colors duration-300 ease-in-out p-5 px-20 animate-revealTop ${scrolled ? 'bg-white shadow-md text-black' : 'bg-transparent text-white'}`}>
           <Link href={"/"} className={`${Font.dmSerifDisplay.className} text-4xl`}>NgeBaju</Link>
           <div className="flex flex-row text-xl gap-10 font-semibold">
             {navbarItems.map((item, index) => (
@@ -59,9 +67,6 @@ export default function Navbar({ tooglePopUp }) {
             <Link href={auth === "unregistered" ? "/login" : "/profile"}  className={`${scrolled ? 'hover:bg-black hover:text-white' : 'hover:bg-white hover:text-black'} p-3 rounded-[70px]`}>
               <User size={28}/>
             </Link>
-            {/* <button onClick={BackToTop}>
-              Back to Top
-            </button> */}
           </div>
         </nav>
   );

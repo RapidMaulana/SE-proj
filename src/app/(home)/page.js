@@ -11,6 +11,32 @@ export default function Home() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [category, setCategory] = useState(1);
+  const [auth, setAuth] = useState("unregistered");
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+
+    if (token) {
+      try {
+        // Decode token (opsional)
+        const payload = JSON.parse(atob(token.split(".")[1])); // Decode payload JWT
+
+        const isExpired = payload.exp * 1000 < Date.now(); // Cek apakah token kedaluwarsa
+
+        if (!isExpired) {
+          setAuth("authorized"); // Token valid
+        } else {
+          setAuth("unregistered"); // Token kedaluwarsa
+          localStorage.removeItem("token"); // Bersihkan token
+        }
+      } catch (error) {
+        console.error("Invalid token:", error);
+        setAuth("unregistered");
+      }
+    } else {
+      setAuth("unregistered");
+    }
+  }, []);
 
   useEffect(() => {
     async function fetchProducts() {
@@ -128,8 +154,8 @@ export default function Home() {
           originality—making sure every piece stands out while staying refined.
         </p>
       </div>
-
-      <div className=" h-screen w-full p-20 flex flex-col gap-20 justify-evenly">
+      
+      <div className={` h-screen w-full p-20 flex flex-col gap-20 justify-evenly ${auth == "authorized" ? "hidden" : "flex"}`}>
         <h1
           className={`${Font.dmSerifDisplay.className} mx-auto text-7xl text-white`}>
           Enough for the Wait, Start Shopping Now!

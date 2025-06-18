@@ -112,7 +112,7 @@ export default function RegisterPage() {
   };
 
   return (
-    <div className="w-[50%] mt-40">
+    <div className="w-[50%] h-auto">
       <h1 className={`${Font.dmSerifDisplay.className} text-7xl`}>NgeBaju</h1>
       <div className="top-button-wrapper">
         <Link href={"/login"} className="top-button">

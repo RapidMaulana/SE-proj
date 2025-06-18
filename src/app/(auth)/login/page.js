@@ -40,7 +40,6 @@ export default function LoginPage() {
         }
       } else {
         alert("Login failed");
-        console.error("API Error:", data.message); // Debug error message dari API
       }
     } catch (error) {
       console.error("Error logging in:", error.message);

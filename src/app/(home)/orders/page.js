@@ -2,11 +2,18 @@
 
 import Link from "next/link";
 import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
+
+import { StepBack, SkipForward } from "lucide-react";
 
 export default function OrdersPage() {
+  const router = useRouter();
+
   const [auth, setAuth] = useState("unregistered");
   const [orders, setOrders] = useState(null); // state untuk simpan data orders
   const [loading, setLoading] = useState(true);
+  const [pagination, setPagination] = useState(null);
+  const [page, setPage] = useState(1);
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -38,7 +45,7 @@ export default function OrdersPage() {
         setLoading(true);
         try {
           // Ganti URL sesuai API kamu
-          const res = await fetch("http://localhost:8000/api/orders/me", {
+          const res = await fetch(`http://localhost:8000/api/orders/me?page=${page}`, {
             headers: {
               Authorization: `Bearer ${localStorage.getItem("token")}`,
             },
@@ -46,7 +53,8 @@ export default function OrdersPage() {
           const data = await res.json();
 
           if (data.success) {
-            setOrders(data.orders); // misal responsenya ada properti orders
+            setOrders(data.orders);
+            setPagination(data.pagination.pages)
           } else {
             setOrders([]);
           }
@@ -59,8 +67,31 @@ export default function OrdersPage() {
       };
 
       fetchOrders();
+    } else {
+      setLoading(false);
     }
-  }, [auth]);
+  }, [auth, page]);
+
+  const handleRedirect = (id) => {
+    localStorage.setItem("currentOrderId", id); // Simpan ID order ke localStorage
+    router.push("/checkout");
+  };
+
+  const nextPage =() =>{
+    if(page < pagination && page != pagination){
+      console.log("adalah", page)
+      setPage((page) => page + 1);
+      console.log("cihuy",page)
+    }
+  }
+  
+  const prevPage = () => {
+    if(page != 1) {
+      console.log("adalah", page)
+      setPage((page) => page - 1);
+      console.log("cihuy",page)
+    }
+  }
 
   if (loading) {
     return (
@@ -100,9 +131,10 @@ export default function OrdersPage() {
   }
 
   return (
-    <div className="h-screen p-20 flex flex-col items-center gap-10">
+    <div className="p-20 flex flex-col items-center gap-10">
       {orders.map((order) => (
-        <div
+        <button
+          onClick={() => handleRedirect(order.order_id)}
           key={order.order_id}
           className="bg-black w-[70%] gap-10 rounded-[25px] flex flex-col justify-between items-center p-10">
           <div className="flex flex-row justify-between w-full font-semibold text-4xl">
@@ -110,12 +142,12 @@ export default function OrdersPage() {
             <h1>Order Status: {order.status}</h1>
           </div>
           <div className="flex flex-col w-full gap-6">
-            {order.items.map((item) => (
+            {order?.items?.map((item) => (
               <div
                 key={`${item.product_id}-${item.size}`}
                 className="flex flex-row justify-between w-full text-2xl">
                 <p>
-                  {item.product_name} x {item.quantity} (
+                  {item.products.name} x {item.quantity} (
                   {item.size || "No Size"})
                 </p>
                 <p>Rp.{item.price * item.quantity}</p>
@@ -126,8 +158,21 @@ export default function OrdersPage() {
             <p>Total: Rp.{order.total_price}</p>
             <p>{order.payment_status === "paid" ? "Verified" : "Unpaid"}</p>
           </div>
-        </div>
+        </button>
       ))}
+      <div className="w-full flex flex-row justify-between text-4xl font-bold">
+        <h1>Page : {page}</h1>
+        <div>
+          <button onClick={prevPage}>
+            &lt;
+            Previous
+          </button>
+          <button onClick={nextPage} className="ml-10">
+            Next
+            &gt;
+          </button>
+        </div>
+      </div>
     </div>
   );
 }
