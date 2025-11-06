@@ -6,40 +6,20 @@ import { useRouter } from "next/navigation";
 
 import { StepBack, SkipForward } from "lucide-react";
 
+import { useAuth } from "@/app/hooks/useAuth";
+
 export default function OrdersPage() {
   const router = useRouter();
 
-  const [auth, setAuth] = useState("unregistered");
+  const { auth } = useAuth();
+
   const [orders, setOrders] = useState(null); // state untuk simpan data orders
   const [loading, setLoading] = useState(true);
   const [pagination, setPagination] = useState(null);
   const [page, setPage] = useState(1);
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
-
-    if (token) {
-      try {
-        const payload = JSON.parse(atob(token.split(".")[1]));
-        const isExpired = payload.exp * 1000 < Date.now();
-
-        if (!isExpired) {
-          setAuth("authorized");
-        } else {
-          setAuth("unregistered");
-          localStorage.removeItem("token");
-        }
-      } catch (error) {
-        console.error("Invalid token:", error);
-        setAuth("unregistered");
-      }
-    } else {
-      setAuth("unregistered");
-    }
-  }, []);
-
-  useEffect(() => {
-    if (auth === "authorized") {
+    if (auth === true) {
       // fetch orders user dari API
       const fetchOrders = async () => {
         setLoading(true);
@@ -97,7 +77,7 @@ export default function OrdersPage() {
     );
   }
 
-  if (auth === "unregistered") {
+  if (auth === false) {
     return (
       <div className="h-screen p-20 flex flex-col items-center justify-center">
         <div className="bg-black w-[70%] h-[35%] rounded-[25px] flex justify-center items-center">

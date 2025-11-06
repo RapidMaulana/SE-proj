@@ -6,6 +6,8 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 
+import { useAuth } from "@/app/hooks/useAuth";
+
 export default function ProductDetailPage({ params }) {
   const router = useRouter();
 
@@ -13,34 +15,12 @@ export default function ProductDetailPage({ params }) {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [slug, setSlug] = useState(null);
-  const [auth, setAuth] = useState("unregistered");
   const [selectedSize, setSelectedSize] = useState("XL");
 
   const [mainImageIndex, setMainImageIndex] = useState(0);
   const [btnLoading, setBtnLoading] = useState(false);
 
-  useEffect(() => {
-    const token = localStorage.getItem("token");
-
-    if (token) {
-      try {
-        const payload = JSON.parse(atob(token.split(".")[1]));
-        const isExpired = payload.exp * 1000 < Date.now();
-
-        if (!isExpired) {
-          setAuth("authorized");
-        } else {
-          setAuth("unregistered");
-          localStorage.removeItem("token");
-        }
-      } catch (error) {
-        console.error("Invalid token:", error);
-        setAuth("unregistered");
-      }
-    } else {
-      setAuth("unregistered");
-    }
-  }, []);
+  const { auth } = useAuth();
 
   useEffect(() => {
     (async () => {
@@ -250,7 +230,7 @@ export default function ProductDetailPage({ params }) {
       </div>
       <h1 className="mt-20 text-4xl font-semibold">Description</h1>
       <p className="mt-4 text-lg w-[50%]">{product.description}</p>
-      {auth === "unregistered" && (
+      {auth === false && (
         <div className="h-screen w-full p-20 flex flex-col gap-20 justify-evenly">
           <div className="bg-gradient-to-b from-gray-50 to-orange-200 h-[calc(100%/1.1)] px-10 rounded-[40px] flex flex-row justify-between items-center">
             <div className="w-[50%] flex flex-col gap-5 text-black">

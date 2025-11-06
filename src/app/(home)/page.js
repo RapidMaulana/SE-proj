@@ -6,37 +6,14 @@ import Link from "next/link.js";
 import Image from "next/image.js";
 import { useState, useEffect } from "react";
 
+import { useAuth } from "../hooks/useAuth";
+
 export default function Home() {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [category, setCategory] = useState(1);
-  const [auth, setAuth] = useState("unregistered");
 
-  useEffect(() => {
-    const token = localStorage.getItem("token");
-
-    if (token) {
-      try {
-        // Decode token (opsional)
-        const payload = JSON.parse(atob(token.split(".")[1])); // Decode payload JWT
-
-        const isExpired = payload.exp * 1000 < Date.now(); // Cek apakah token kedaluwarsa
-
-        if (!isExpired) {
-          setAuth("authorized"); // Token valid
-        } else {
-          setAuth("unregistered"); // Token kedaluwarsa
-          localStorage.removeItem("token"); // Bersihkan token
-        }
-      } catch (error) {
-        console.error("Invalid token:", error);
-        setAuth("unregistered");
-      }
-    } else {
-      setAuth("unregistered");
-    }
-  }, []);
+  const { auth } = useAuth();
 
   useEffect(() => {
     async function fetchProducts() {
@@ -57,7 +34,7 @@ export default function Home() {
     }
 
     fetchProducts();
-  }, [category]);
+  }, []);
 
   return (
     <div className="flex flex-col max-w-screen">
@@ -154,7 +131,7 @@ export default function Home() {
         </p>
       </div>
       
-      <div className={` h-screen w-full p-20 flex flex-col gap-20 justify-evenly ${auth == "authorized" ? "hidden" : "flex"}`}>
+      <div className={` h-screen w-full p-20 flex flex-col gap-20 justify-evenly ${auth === false ? "flex" : "hidden"}`}>
         <h1
           className={`${Font.dmSerifDisplay.className} mx-auto text-7xl text-white`}>
           Enough for the Wait, Start Shopping Now!

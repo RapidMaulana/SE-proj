@@ -4,13 +4,16 @@ import { Edit } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
 
+import { useAuth } from "@/app/hooks/useAuth";
+
 export default function ProfilePage() {
   const [userData, setUserData] = useState({});
 
   const [isEditing, setIsEditing] = useState(false);
   const [formData, setFormData] = useState(userData);
 
-  // Fetch user data
+  const { logout } = useAuth();
+
   useEffect(() => {
     const fetchProfile = async () => {
       try {
@@ -43,11 +46,7 @@ export default function ProfilePage() {
   const router = useRouter();
 
   const handleLogout = () => {
-    // Hapus token dari localStorage
-    localStorage.removeItem("token");
-
-    // Arahkan ke halaman home
-    router.push("/");
+    logout();
   };
 
   // Handle form input changes
