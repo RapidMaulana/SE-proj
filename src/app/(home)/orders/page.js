@@ -79,17 +79,13 @@ export default function OrdersPage() {
 
   const nextPage =() =>{
     if(page < pagination && page != pagination){
-      console.log("adalah", page)
       setPage((page) => page + 1);
-      console.log("cihuy",page)
     }
   }
   
   const prevPage = () => {
     if(page != 1) {
-      console.log("adalah", page)
       setPage((page) => page - 1);
-      console.log("cihuy",page)
     }
   }
 

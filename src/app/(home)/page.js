@@ -44,7 +44,6 @@ export default function Home() {
         const response = await fetch(`http://localhost:8000/api/products`); // Ganti dengan URL API kamu
         const data = await response.json();
 
-        console.log(data.products[0].images[0].image_url);
         if (data.success) {
           setProducts(data.products);
         } else {

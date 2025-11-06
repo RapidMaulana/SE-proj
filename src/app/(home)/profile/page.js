@@ -15,7 +15,6 @@ export default function ProfilePage() {
     const fetchProfile = async () => {
       try {
         const token = localStorage.getItem("token");
-        console.log("Token:", token); // Logging untuk verifikasi token
 
         const response = await fetch("http://localhost:8000/api/auth/profile", {
           method: "GET",
@@ -25,7 +24,6 @@ export default function ProfilePage() {
         });
 
         const result = await response.json();
-        console.log("Response Data:", result); // Logging respons API
 
         if (response.ok && result.success) {
           const userData = result.user; // Mengambil data user dari respons
@@ -62,7 +60,6 @@ export default function ProfilePage() {
  const handleEditSubmit = async () => {
   try {
     const token = localStorage.getItem("token");
-    console.log("Token:", token); // Tambahkan log ini
 
     const response = await fetch(`http://localhost:8000/api/users/${userData.user_id}`, {
       method: "PUT",
@@ -73,9 +70,7 @@ export default function ProfilePage() {
       body: JSON.stringify(formData),
     });
 
-    console.log("Response status:", response.status);
     const responseBody = await response.json();
-    console.log("Response body:", responseBody);
 
     if (response.ok) {
       setUserData(responseBody);

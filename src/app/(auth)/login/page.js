@@ -29,7 +29,6 @@ export default function LoginPage() {
       }
 
       const data = await response.json();
-      console.log(data); // Debug respons dari API
 
       if (data.success) {
         localStorage.setItem("token", data.token);
@@ -62,7 +61,7 @@ export default function LoginPage() {
         <label>Email</label>
         <input
           value={email}
-          placeholder="rapidganteng@gmail.com"
+          placeholder="youremail@gmail.com"
           onChange={(e) => setEmail(e.target.value)}
         />
         <label>Password</label>
@@ -70,7 +69,7 @@ export default function LoginPage() {
           type="password" // Tambahkan tipe password
           value={password}
           onChange={(e) => setPassword(e.target.value)}
-          placeholder="paswot"
+          placeholder="password"
         />
         {/* <div className="flex flex-row justify-between">
           <div>

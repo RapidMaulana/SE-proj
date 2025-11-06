@@ -107,19 +107,6 @@ export default function ManageOrders() {
     }
   };
 
-  const getPaymentStatusColor = (status) => {
-    switch (status) {
-      case "paid":
-        return "bg-green-500";
-      case "unpaid":
-        return "bg-red-500";
-      case "pending":
-        return "bg-yellow-500";
-      default:
-        return "bg-gray-500";
-    }
-  };
-
   const formatCurrency = (amount) => {
     return new Intl.NumberFormat("id-ID", {
       style: "currency",
@@ -235,7 +222,6 @@ export default function ManageOrders() {
 
       if (response.ok) {
         const result = await response.json();
-        console.log("Order status updated successfully:", result);
 
         // Update local state immediately for better UX
         setOrders((prevOrders) =>

@@ -22,9 +22,6 @@ export default function ProductPage() {
         ); // Ganti dengan URL API kamu
         const data = await response.json();
 
-        // console.log(data);
-
-        // console.log(data.products);
         if (data.success) {
           setProducts(data.products);
         } else {
@@ -38,7 +35,6 @@ export default function ProductPage() {
     }
 
     fetchProducts();
-    console.log(products)
   }, [category]);
 
   return (

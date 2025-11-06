@@ -14,7 +14,6 @@ export default function CheckoutPage() {
     const fetchProfile = async () => {
       try {
         const token = localStorage.getItem("token");
-        console.log("Token:", token); // Logging untuk verifikasi token
 
         const response = await fetch("http://localhost:8000/api/auth/profile", {
           method: "GET",
@@ -24,7 +23,6 @@ export default function CheckoutPage() {
         });
 
         const result = await response.json();
-        console.log("Response Data:", result); // Logging respons API
 
         if (response.ok && result.success) {
           const userData = result.user; // Mengambil data user dari respons

@@ -132,7 +132,6 @@ export default function ProductDetailPage({ params }) {
         ],
       };
 
-      console.log(product.product_id, selectedSize);
 
       const res = await fetch("http://localhost:8000/api/orders", {
         method: "POST",

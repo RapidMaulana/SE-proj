@@ -8,11 +8,6 @@ import { useRouter } from "next/navigation";
 
 import AdminSidebar from "@/components/admin-sidebar";
 
-// export const metadata = {
-//   title: "NgeBaju - Atmin",
-//   description: "Group 8th - Software Engineering Project",
-// };
-
 export default function AuthLayout({ children }) {
   const [auth, setAuth] = useState(null); // null untuk menunjukkan status belum diperiksa
   const router = useRouter();
